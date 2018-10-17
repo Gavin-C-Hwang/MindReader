@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script>
+
+    </script>
+</head>
+
+<body>
+    <!--div class="w3-display-container w3-opacity-min" style="background-image: url('http://static1.squarespace.com/static/4ff36a2b84aecc34311d0e6c/523b0fcce4b099ee151514e7/576a9247bebafb8129e31845/1466602527692/120206-mindreader.png?format=1000w'); min-height: 500px; background-repeat: no-repeat; background-position: center">
+        <div class="w3-display-middle w3-opacity" style="white-space:nowrap;">
+            <span class="w3-center w3-padding-large w3-white w3-xlarge w3-wide w3-animate-opacity">Read  Minders</span>
+        </div>
+    </div-->
+    <div id='divNewGame'>
+        <button class="w3-button w3-black w3-section w3-display-middle" onclick="screenNewGame.start();">
+          <i class="fa fa-gamepad" style="font-size: 30pt;"></i><span style="padding-left: 10px; font-size: 25pt;">NEW GAME</span>
+        </button>
+    </div>
+    <section id='sectShowCode' class="w3-animate-opacity" style="display: none">
+        <div class="w3-middle w3-xxlarge" style="text-align: center">
+            Let users know below code
+        </div>
+        <div class="w3-middle w3-xxxlarge" style="text-align: center;padding-top: 80px;">
+            AAAA
+        </div>
+        <div class="w3-middle w3-xlarge" style="text-align: center; padding-top: 140px;">
+            Connected User List
+        </div>
+        <div id="join" class="w3-col l3 m6  w3-container w3-padding-8"><img src=''/><p>asdasdasd</p></div>
+        <div class="w3-col l3 m6  w3-container w3-padding-8"><img src=''/><p>asdasdasd</p></div>
+        <div class="w3-col l3 m6  w3-container w3-padding-8"><img src=''/><p>asdasdasd</p></div>
+        <div class="w3-col l3 m6  w3-container w3-padding-8"><img src=''/><p>asdasdasd</p></div>
+        <div class="w3-col l3 m6  w3-container w3-padding-8"><img src=''/><p>asdasdasd</p></div>
+        <div class="w3-col l3 m6  w3-container w3-padding-8"><img src=''/><p>asdasdasd</p></div>
+    </section>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script>
+        var socket = io();
+
+        socket.on('join', function(msg){
+            $('#join').append($('<li>').text(msg));
+        });
+
+        var screenNewGame = {
+            start : function(){
+                document.querySelector('#divNewGame').style.display = 'none';
+                screenShowCode.view();
+                socket.emit('create', 'create');
+            }
+        }
+        var screenShowCode = {
+            view : function(){
+                document.querySelector('#sectShowCode').style.display = '';
+            }
+        }
+        
+        /*$(function () {
+            var socket = io();
+            $('form').submit(function(){
+                socket.emit('chat message', $('#m').val());
+                $('#m').val('');
+                return false;
+            });
+            socket.on('chat message', function(msg){
+            $('#messages').append($('<li>').text(msg));
+            });
+        });*/
+    </script>
+</body>
+
+</html>

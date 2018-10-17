@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script>
+
+    </script>
+</head>
+
+<body>
+    <!--div class="w3-display-container w3-opacity-min" style="background-image: url('http://static1.squarespace.com/static/4ff36a2b84aecc34311d0e6c/523b0fcce4b099ee151514e7/576a9247bebafb8129e31845/1466602527692/120206-mindreader.png?format=1000w'); min-height: 500px; background-repeat: no-repeat; background-position: center">
+        <div class="w3-display-middle w3-opacity" style="white-space:nowrap;">
+            <span class="w3-center w3-padding-large w3-white w3-xlarge w3-wide w3-animate-opacity">Read  Minders</span>
+        </div>
+    </div-->
+    <div id='divEnterGame' class="w3-display-middle">
+        <input id="ipCode" type="text" class="w3-container w3-white w3-xxxlarge" style="border: none; border-bottom: 1px solid black;outline: none; width: 200px; text-align: center" placeholder="AAAA" /><br />
+        <button class="w3-button w3-black w3-section" onclick="screenEnterGame.start();">
+            <i class="fa fa-gamepad" style="font-size: 30pt;"></i><span style="padding-left: 10px; font-size: 25pt;">ENTER</span>
+        </button>
+    </div>
+    <section id='sectPutName' class="w3-animate-opacity" style="display: none">
+        <div class="w3-display-middle">
+            <input id="ipName" type="text" class="w3-container w3-white w3-xlarge" style="border: none; border-bottom: 1px solid black;outline: none; width: 250px; text-align: left" placeholder="Name" /><br />
+            <button class="w3-button w3-black w3-section w3-right" style="width: 250px;" onclick="screenPutName.start();">
+                <i class="fa fa-gamepad" style="font-size: 30pt;"></i><span style="padding-left: 10px; font-size: 25pt;">NEXT</span>
+            </button>
+        </div>
+    </section>
+    <section id='sectPutImg' class="w3-animate-opacity" style="display: none">
+            <canvas id="canvas" width="400px" height="400px" style="border: 1px solid black">
+            </canvas>
+            <br />
+            <button class="w3-button w3-black w3-section w3-right" style="width: 250px;" onclick="screenPutName.done();">
+                <i class="fa fa-gamepad" style="font-size: 30pt;"></i><span style="padding-left: 10px; font-size: 25pt;">DONE</span>
+            </button>
+            <span id='cordinate'></span>
+    </section>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="/canvas.js"></script>
+    <script>
+        var socket;
+        var screenEnterGame = {
+            start: function() {
+                socket.emit('authCode', $('#ipCode').val());
+            }
+        }
+        var screenPutName = {
+            start: function() {
+                document.querySelector('#sectPutName').style.display = 'none';
+                document.querySelector('#sectPutImg').style.display = '';
+            },
+            done: function() {
+                var dataURL = document.querySelector('#canvas').toDataURL();
+                socket.emit('ink', JSON.stringify(ink));
+                debugger;
+            }
+        }
+
+        
+
+        $(function() {
+            socket = io();
+            socket.on('authCode', function(msg) {
+                if ('T' === msg) {
+                    document.querySelector('#divEnterGame').style.display = 'none';
+                    document.querySelector('#sectPutName').style.display = '';
+                } else {
+                    alert('wrong!!');
+                    document.querySelector('#divEnterGame').style.display = '';
+                    document.querySelector('#sectPutName').style.display = 'none';
+                }
+
+            });        
+        });
+
+    </script>
+</body>
+
+</html>
